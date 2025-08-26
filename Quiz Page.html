@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fun Quiz</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      color: white;
+    }
+
+    .quiz-container {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      padding: 30px 40px;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    .question {
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+
+    input {
+      padding: 10px;
+      width: 80%;
+      border-radius: 10px;
+      border: none;
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 20px;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      background: #fff;
+      color: #2575fc;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #2575fc;
+      color: white;
+      transform: scale(1.05);
+    }
+
+    .score {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #ffeb3b;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="quiz-container">
+    <h2>🌟 Fun Quiz</h2>
+
+    <div class="question" id="questionText">Click start to begin the quiz!</div>
+    <input type="text" id="answerInput" placeholder="Type your answer here" style="display:none;">
+    <br>
+    <button id="startBtn" onclick="startQuiz()">Start Quiz</button>
+    <button id="nextBtn" onclick="nextQuestion()" style="display:none;">Next</button>
+
+    <div class="score" id="scoreText"></div>
+  </div>
+
+  <script>
+    const questions = [
+      { q: "What is the capital of France?", a: "paris" },
+      { q: "What is the highest mountain in the world?", a: "mount everest" },
+      { q: "What is the chemical symbol for water?", a: "H2O" }
+    ];
+
+    let score = 0;
+    let current = 0;
+
+    const questionText = document.getElementById("questionText");
+    const answerInput = document.getElementById("answerInput");
+    const startBtn = document.getElementById("startBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const scoreText = document.getElementById("scoreText");
+
+    function startQuiz() {
+      startBtn.style.display = "none";
+      answerInput.style.display = "block";
+      nextBtn.style.display = "inline-block";
+      current = 0;
+      score = 0;
+      showQuestion();
+    }
+
+    function showQuestion() {
+      questionText.innerText = questions[current].q;
+      answerInput.value = "";
+      scoreText.innerText = `Score: ${score}`;
+    }
+
+    function nextQuestion() {
+      let userAnswer = answerInput.value.trim();
+      if(!userAnswer) return;
+
+      if(userAnswer.toLowerCase() === questions[current].a.toLowerCase()) {
+        alert("✅ Correct!");
+        score++;
+      } else {
+        alert(`❌ Incorrect! Correct answer: ${questions[current].a}`);
+      }
+
+      current++;
+      if(current < questions.length) {
+        showQuestion();
+      } else {
+        questionText.innerText = "🎉 Quiz Finished!";
+        answerInput.style.display = "none";
+        nextBtn.style.display = "none";
+        scoreText.innerText = `Your final score: ${score} out of ${questions.length}`;
+      }
+    }
+  </script>
+
+</body>
+</html>
